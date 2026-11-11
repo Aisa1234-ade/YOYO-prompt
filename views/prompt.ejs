@@ -1,0 +1,56 @@
+<section class="section">
+  <div class="container">
+    <div class="section-heading"><h2>Prompt library</h2></div>
+    <form class="filters" action="/library" method="GET">
+      <div class="filter-field">
+        <label for="search">Search</label>
+        <input id="search" name="search" value="<%= search %>" placeholder="Search prompts" />
+      </div>
+      <div class="filter-field">
+        <label for="tool">AI tool</label>
+        <select id="tool" name="tool">
+          <option value="">All tools</option>
+          <% aiTools.forEach((toolOption) => { %>
+            <option value="<%= toolOption.value %>" <%= tool === toolOption.value ? 'selected' : '' %>><%= toolOption.label %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="filter-field">
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">All categories</option>
+          <% categories.forEach((categoryOption) => { %>
+            <option value="<%= categoryOption %>" <%= category === categoryOption ? 'selected' : '' %>><%= categoryOption %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="filter-field">
+        <label for="type">Type</label>
+        <select id="type" name="type">
+          <option value="">All types</option>
+          <option value="video" <%= type === 'video' ? 'selected' : '' %>>Video</option>
+          <option value="image" <%= type === 'image' ? 'selected' : '' %>>Image</option>
+        </select>
+      </div>
+      <button class="primary-btn" type="submit">Apply filters</button>
+    </form>
+    <div class="generate-results"><strong><%= prompts.length %></strong> prompts found</div>
+    <% if (!prompts.length) { %>
+      <div class="empty-state">No matching prompts yet.</div>
+    <% } else { %>
+      <div class="card-grid">
+        <% prompts.forEach((prompt) => { %>
+          <article class="prompt-card">
+            <figure><img src="<%= prompt.cover_image || prompt.media_url %>" alt="<%= prompt.title %>" /></figure>
+            <div class="prompt-body">
+              <div class="meta-row"><span class="badge"><%= prompt.ai_tool %></span><span><%= prompt.type %></span></div>
+              <h3><%= prompt.title %></h3>
+              <p><%= prompt.short_explanation %></p>
+              <div class="card-actions"><span class="link-inline"><%= prompt.category %></span><a class="secondary-btn" href="/p/<%= prompt.slug %>">Open</a></div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>

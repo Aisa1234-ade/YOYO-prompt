@@ -1,0 +1,109 @@
+<%- include('layout', { body: `
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Free AI Prompt Library</span>
+          <h1>Build better AI content with <span class="gradient-text">YOYO PROMPT</span></h1>
+          <p>Discover ready-to-use prompts for AI video, image generation, cinematic scenes, storytelling, social media content, product ads, and creative workflows.</p>
+          <form class="search-wrap" action="/library" method="GET">
+            <input type="search" name="search" placeholder="Search prompts, ideas, categories..." />
+            <button class="primary-btn" type="submit">Search</button>
+          </form>
+        </div>
+        <div class="hero-panel">
+          <div class="feature-stack">
+            <div class="feature-card"><div class="feature-badge">★</div><div><h3>Curated prompts</h3><p>Professionally structured prompts.</p></div></div>
+            <div class="feature-card"><div class="feature-badge">✦</div><div><h3>AI tool filters</h3><p>Google Flow, Grok, CapCut, Muse AI.</p></div></div>
+            <div class="feature-card"><div class="feature-badge">▣</div><div><h3>Share instantly</h3><p>Copy prompts and share links.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="container">
+        <div class="section-heading"><h2>AI tools</h2></div>
+        <div class="tool-grid">
+          <% aiTools.forEach((tool) => { %>
+            <article class="tool-card">
+              <div class="tool-icon"><%= tool.icon %></div>
+              <h3><%= tool.label %></h3>
+              <p>Prompt ideas optimized for <%= tool.label %> workflows.</p>
+              <a class="link-inline" href="/library?tool=<%= encodeURIComponent(tool.value) %>">Explore →</a>
+            </article>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="featured">
+      <div class="container">
+        <div class="section-heading"><h2>Featured prompts</h2><a href="/library">View all →</a></div>
+        <div class="card-grid">
+          <% featured.forEach((prompt) => { %>
+            <article class="prompt-card">
+              <figure><img src="<%= prompt.cover_image || prompt.media_url %>" alt="<%= prompt.title %>" /></figure>
+              <div class="prompt-body">
+                <div class="meta-row"><span class="badge"><%= prompt.ai_tool %></span><span><%= prompt.type %></span></div>
+                <h3><%= prompt.title %></h3>
+                <p><%= prompt.short_explanation %></p>
+                <div class="card-actions"><span class="link-inline"><%= prompt.category %></span><a class="primary-btn" href="/p/<%= prompt.slug %>">Open</a></div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading"><h2>Latest uploads</h2><a href="/library">See library →</a></div>
+        <div class="card-grid">
+          <% latest.forEach((prompt) => { %>
+            <article class="prompt-card">
+              <figure><img src="<%= prompt.cover_image || prompt.media_url %>" alt="<%= prompt.title %>" /></figure>
+              <div class="prompt-body">
+                <div class="meta-row"><span class="badge"><%= prompt.ai_tool %></span><span><%= prompt.category %></span></div>
+                <h3><%= prompt.title %></h3>
+                <p><%= prompt.short_explanation %></p>
+                <div class="card-actions"><span class="link-inline"><%= prompt.type %></span><a class="secondary-btn" href="/p/<%= prompt.slug %>">View</a></div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-heading"><h2>Categories</h2></div>
+        <div class="category-grid">
+          <% categories.forEach((category) => { %>
+            <a class="category-card" href="/library?category=<%= encodeURIComponent(category) %>"><strong><%= category %></strong></a>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading"><h2>Video & image examples</h2><div class="tabs"><button class="tab-btn active" type="button" data-tab-button="video">Video</button><button class="tab-btn" type="button" data-tab-button="image">Image</button></div></div>
+        <div class="card-grid" data-tab-panel="video">
+          <% videoPrompts.forEach((prompt) => { %>
+            <article class="prompt-card">
+              <figure><img src="<%= prompt.cover_image || prompt.media_url %>" alt="<%= prompt.title %>" /></figure>
+              <div class="prompt-body"><h3><%= prompt.title %></h3><p><%= prompt.short_explanation %></p><a class="secondary-btn" href="/p/<%= prompt.slug %>">See prompt</a></div>
+            </article>
+          <% }) %>
+        </div>
+        <div class="card-grid hidden" data-tab-panel="image">
+          <% imagePrompts.forEach((prompt) => { %>
+            <article class="prompt-card">
+              <figure><img src="<%= prompt.cover_image || prompt.media_url %>" alt="<%= prompt.title %>" /></figure>
+              <div class="prompt-body"><h3><%= prompt.title %></h3><p><%= prompt.short_explanation %></p><a class="secondary-btn" href="/p/<%= prompt.slug %>">See prompt</a></div>
+            </article>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+`}) %>

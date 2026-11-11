@@ -1,0 +1,17 @@
+<section class="admin-shell">
+  <div class="container" style="max-width: 460px;">
+    <div class="form-card">
+      <h1 style="margin-top: 0;">Admin login</h1>
+      <% if (typeof authError !== 'undefined' && authError) { %>
+        <div class="status-pill" style="margin-bottom: 1rem; background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.35); color: #fccaca;"><%= authError %></div>
+      <% } %>
+      <form method="POST" action="/admin/login">
+        <div>
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" placeholder="Enter admin password" required />
+        </div>
+        <button class="primary-btn" type="submit">Log in</button>
+      </form>
+    </div>
+  </div>
+</section>

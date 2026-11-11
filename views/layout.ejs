@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle || 'YOYO PROMPT' %></title>
+    <meta name="description" content="YOYO PROMPT is a free AI prompt library for creators, marketers, storytellers, and visual artists." />
+    <meta property="og:title" content="<%= pageTitle || 'YOYO PROMPT' %>" />
+    <meta property="og:description" content="Free AI prompt ideas for video, image, storytelling, and product content." />
+    <meta property="og:image" content="<%= typeof currentUrl !== 'undefined' ? currentUrl : 'https://example.com/og-image.jpg' %>" />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container navbar">
+        <a href="/" class="brand">
+          <span class="brand-mark">Y</span>
+          <span>YOYO PROMPT</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="/">Home</a>
+          <a href="/library">Library</a>
+          <a href="/#featured">Featured</a>
+          <a href="/#categories">Categories</a>
+          <a href="/admin/login">Admin</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="toggle-btn" type="button" data-theme-toggle>Light mode</button>
+          <a class="primary-btn" href="/library">Browse prompts</a>
+        </div>
+      </div>
+    </header>
+    <main>
+      <%- body %>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>© 2026 YOYO PROMPT</div>
+        <div>Free AI prompt library for creators and brands.</div>
+      </div>
+    </footer>
+    <script src="/js/app.js"></script>
+  </body>
+</html>

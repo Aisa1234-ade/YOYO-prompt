@@ -1,0 +1,65 @@
+<section class="admin-shell">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">Admin area</span>
+        <h1 style="margin-top: 0.8rem;">Dashboard</h1>
+      </div>
+      <div class="nav-actions">
+        <a class="primary-btn" href="/admin/prompts/new">New prompt</a>
+        <form method="POST" action="/admin/logout" style="display: inline;">
+          <button class="ghost-btn" type="submit">Log out</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="table-card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Title</th><th>Slug</th><th>Tool</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <% if (!prompts.length) { %>
+                <tr><td colspan="5" class="empty-state">No prompts yet.</td></tr>
+              <% } else { %>
+                <% prompts.forEach((prompt) => { %>
+                  <tr>
+                    <td><%= prompt.title %></td>
+                    <td><%= prompt.slug %></td>
+                    <td><%= prompt.ai_tool %></td>
+                    <td><span class="status-pill"><%= prompt.visible ? 'Live' : 'Hidden' %></span></td>
+                    <td>
+                      <a class="link-inline" href="/admin/prompts/<%= prompt.id %>/edit">Edit</a>
+                      <form method="POST" action="/admin/prompts/<%= prompt.id %>/delete" style="display:inline; margin-left: .5rem;" onsubmit="return confirm('Delete this prompt?');"><button class="ghost-btn" type="submit">Delete</button></form>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Review</th><th>Prompt</th><th>Action</th></tr></thead>
+            <tbody>
+              <% if (!reviews.length) { %>
+                <tr><td colspan="3" class="empty-state">No reviews yet.</td></tr>
+              <% } else { %>
+                <% reviews.forEach((review) => { %>
+                  <tr>
+                    <td><%= review.name || 'Anonymous' %> · <%= '★'.repeat(review.rating) %></td>
+                    <td><%= review.prompt_title %></td>
+                    <td><form method="POST" action="/admin/reviews/<%= review.id %>/delete" onsubmit="return confirm('Remove this review?');"><button class="ghost-btn" type="submit">Remove</button></form></td>
+                  </tr>
+                <% }) %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

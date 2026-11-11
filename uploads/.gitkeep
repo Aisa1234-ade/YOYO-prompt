@@ -1,0 +1,9 @@
+<section class="section">
+  <div class="container" style="max-width: 700px;">
+    <div class="panel" style="padding: 3rem 2rem; text-align: center; background: rgba(20,27,45,0.7); border: 1px solid var(--line); border-radius: 24px;">
+      <h1>Something went wrong</h1>
+      <p><%= message || 'Unable to complete that request.' %></p>
+      <a class="primary-btn" href="/">Back to home</a>
+    </div>
+  </div>
+</section>

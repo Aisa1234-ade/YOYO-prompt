@@ -1,0 +1,114 @@
+<section class="prompt-page">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow"><%= prompt.ai_tool %> · <%= prompt.category %></span>
+        <h1 style="margin-top: 0.8rem;"><%= prompt.title %></h1>
+      </div>
+      <div class="share-row">
+        <button class="share-btn" type="button" data-copy-link="<%= currentUrl %>">Copy Link</button>
+        <a class="share-btn whatsapp" href="https://wa.me/?text=<%= encodeURIComponent(`Check out this prompt: ${currentUrl}`) %>" target="_blank">WhatsApp</a>
+        <a class="share-btn telegram" href="https://t.me/share/url?url=<%= encodeURIComponent(currentUrl) %>&text=<%= encodeURIComponent(prompt.title) %>" target="_blank">Telegram</a>
+        <a class="share-btn x" href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(prompt.title) %>&url=<%= encodeURIComponent(currentUrl) %>" target="_blank">X</a>
+        <a class="share-btn facebook" href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(currentUrl) %>" target="_blank">Facebook</a>
+        <a class="share-btn instagram" href="https://www.instagram.com/" target="_blank">Instagram</a>
+      </div>
+    </div>
+
+    <div class="prompt-shell">
+      <div class="media-card">
+        <% if (prompt.type === 'video') { %>
+          <video controls poster="<%= prompt.cover_image || prompt.media_url %>"><source src="<%= prompt.media_url %>" type="video/mp4" /></video>
+        <% } else { %>
+          <img src="<%= prompt.cover_image || prompt.media_url %>" alt="<%= prompt.title %>" />
+        <% } %>
+      </div>
+      <aside class="details-panel">
+        <h3>Prompt details</h3>
+        <div class="detail-list">
+          <div class="detail-item"><span>AI Tool</span><strong><%= prompt.ai_tool %></strong></div>
+          <div class="detail-item"><span>Category</span><strong><%= prompt.category %></strong></div>
+          <div class="detail-item"><span>Type</span><strong><%= prompt.type %></strong></div>
+          <div class="detail-item"><span>Rating</span><strong><%= average %></strong></div>
+          <div class="detail-item"><span>Reviews</span><strong><%= reviews.length %></strong></div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="content-layout">
+      <div class="prompt-section">
+        <h3>What this prompt does</h3>
+        <p><%= prompt.short_explanation %></p>
+        <h3>How to use it</h3>
+        <ol class="steps-list">
+          <% prompt.how_to_use.split('\n').filter(Boolean).forEach((step, index) => { %>
+            <li><span><%= index + 1 %></span><div><%= step.replace(/^\d+\.?\s*/, '') %></div></li>
+          <% }) %>
+        </ol>
+        <h3>Additional information</h3>
+        <p><%= prompt.additional_info || 'No additional notes yet.' %></p>
+        <h3>Complete prompt text</h3>
+        <div class="prompt-text"><%= prompt.prompt_text %></div>
+      </div>
+
+      <div>
+        <div class="review-form" id="reviews">
+          <h3>Leave a review</h3>
+          <form method="POST" action="/p/<%= prompt.slug %>/review">
+            <div class="form-grid">
+              <div>
+                <label for="name">Name (optional)</label>
+                <input id="name" name="name" type="text" placeholder="Your name" />
+              </div>
+              <div>
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating" required>
+                  <option value="5">5 stars</option>
+                  <option value="4">4 stars</option>
+                  <option value="3">3 stars</option>
+                  <option value="2">2 stars</option>
+                  <option value="1">1 star</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="comment">Comment</label>
+              <textarea id="comment" name="comment" required placeholder="Tell others what worked best..."></textarea>
+            </div>
+            <div class="form-actions"><button class="primary-btn" type="submit">Submit review</button></div>
+          </form>
+        </div>
+
+        <div class="section" style="padding: 1.5rem 0 0;"></div>
+        <% if (reviews.length) { %>
+          <% reviews.forEach((review) => { %>
+            <article class="review-card" style="margin-bottom: 0.8rem;">
+              <div class="review-header"><strong><%= review.name || 'Anonymous' %></strong><span class="stars"><%= '★'.repeat(review.rating) %></span></div>
+              <p><%= review.comment %></p>
+            </article>
+          <% }) %>
+        <% } else { %>
+          <div class="empty-state">No reviews yet. Be the first to share feedback.</div>
+        <% } %>
+      </div>
+    </div>
+
+    <% if (related.length) { %>
+      <section class="section" style="padding-bottom: 0;">
+        <div class="section-heading"><h2>Related prompts</h2></div>
+        <div class="card-grid">
+          <% related.forEach((item) => { %>
+            <article class="prompt-card">
+              <figure><img src="<%= item.cover_image || item.media_url %>" alt="<%= item.title %>" /></figure>
+              <div class="prompt-body">
+                <div class="meta-row"><span class="badge"><%= item.ai_tool %></span><span><%= item.type %></span></div>
+                <h3><%= item.title %></h3>
+                <div class="card-actions"><span class="link-inline"><%= item.category %></span><a class="secondary-btn" href="/p/<%= item.slug %>">View</a></div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+  </div>
+</section>

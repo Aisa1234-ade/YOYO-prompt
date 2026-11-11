@@ -1,0 +1,64 @@
+<section class="admin-shell">
+  <div class="container" style="max-width: 960px;">
+    <div class="form-card">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Admin content</span>
+          <h1 style="margin-top: 0.8rem;"><%= prompt ? 'Edit prompt' : 'Create prompt' %></h1>
+        </div>
+        <a class="ghost-btn" href="/admin/dashboard">Back</a>
+      </div>
+
+      <form method="POST" action="<%= prompt ? `/admin/prompts/${prompt.id}` : '/admin/prompts' %>" enctype="multipart/form-data">
+        <div class="form-grid">
+          <div><label for="title">Title</label><input id="title" name="title" type="text" value="<%= prompt ? prompt.title : '' %>" required /></div>
+          <div><label for="slug">Custom slug</label><input id="slug" name="slug" type="text" value="<%= prompt ? prompt.slug : '' %>" /></div>
+        </div>
+        <div class="form-grid">
+          <div>
+            <label for="ai_tool">AI tool</label>
+            <select id="ai_tool" name="ai_tool">
+              <% aiTools.forEach((tool) => { %>
+                <option value="<%= tool.value %>" <%= prompt && prompt.ai_tool === tool.value ? 'selected' : '' %>><%= tool.label %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div>
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <% categories.forEach((categoryOption) => { %>
+                <option value="<%= categoryOption %>" <%= prompt && prompt.category === categoryOption ? 'selected' : '' %>><%= categoryOption %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div>
+            <label for="type">Type</label>
+            <select id="type" name="type">
+              <option value="video" <%= prompt && prompt.type === 'video' ? 'selected' : '' %>>Video</option>
+              <option value="image" <%= prompt && prompt.type === 'image' ? 'selected' : '' %>>Image</option>
+            </select>
+          </div>
+          <div>
+            <label for="featured">Featured on homepage</label>
+            <input id="featured" name="featured" type="checkbox" <%= prompt && prompt.featured ? 'checked' : '' %> />
+          </div>
+        </div>
+        <div><label for="short_explanation">Short explanation</label><textarea id="short_explanation" name="short_explanation" required><%= prompt ? prompt.short_explanation : '' %></textarea></div>
+        <div><label for="prompt_text">Complete prompt text</label><textarea id="prompt_text" name="prompt_text" required><%= prompt ? prompt.prompt_text : '' %></textarea></div>
+        <div><label for="how_to_use">How to use (one step per line)</label><textarea id="how_to_use" name="how_to_use" required><%= prompt ? prompt.how_to_use : '' %></textarea></div>
+        <div><label for="additional_info">Additional info</label><textarea id="additional_info" name="additional_info"><%= prompt ? prompt.additional_info : '' %></textarea></div>
+        <div class="form-grid">
+          <div><label for="media_url">Media URL</label><input id="media_url" name="media_url" type="url" value="<%= prompt ? prompt.media_url : '' %>" /></div>
+          <div><label for="visible">Visible on public website</label><input id="visible" name="visible" type="checkbox" <%= !prompt || prompt.visible ? 'checked' : '' %> /></div>
+        </div>
+        <div class="form-grid">
+          <div><label for="mediaFile">Upload media</label><input id="mediaFile" name="mediaFile" type="file" accept="image/*,video/*" /></div>
+          <div><label for="coverFile">Upload cover</label><input id="coverFile" name="coverFile" type="file" accept="image/*" /></div>
+        </div>
+        <div class="form-actions"><button class="primary-btn" type="submit"><%= prompt ? 'Save changes' : 'Publish prompt' %></button></div>
+      </form>
+    </div>
+  </div>
+</section>
